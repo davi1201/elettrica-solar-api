@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $projects = $this->project_repository->getList($filter);
 
         foreach ($projects as $project) {
-            if ($project->projectProduct->productCuston) {
+            if ( isset($project->projectProduct->productCuston)) {
                 $project['custon'] = true;
             } else {
                 $project['custon'] = false;
