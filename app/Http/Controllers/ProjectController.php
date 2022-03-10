@@ -201,15 +201,23 @@ class ProjectController extends Controller
             $value_project = $project->price;
         }
 
+        $transformers = false;
+
+        if (count($project->transformers) > 0) {
+            $transformers = $project->transformers;
+        }
+
         $loads = [
             'project' => $project,
             'product' => $project->projectProduct->product,
             'agent' => $project->agent,
             'components' => $components,
-            'transformers' => $project->transformers,
+            'transformers' => $transformers,
             'average' => $irradiation->average,
             'admin' => ConfigAdmin::find(1),
         ];
+
+        // dd($loads);
         
         // $paybackData = $this->generatePayBack(
         //     $project->final_cost,

@@ -276,6 +276,7 @@
         </div>
         <div style="margin: 130px 40px 10px 40px; z-index: 9999">
             <div class="card" style="margin-top: 30px;">
+                @if($transformers)
                 <div class="card-header" style="position: relative;">
                    <img src="{{ public_path('images/icon.svg') }}" alt=""> <h4>TRANFORMADORES</h4>
                    <div style="position: absolute; right: 0px; top: 0; display: inline-block; border-left: 1px solid #CCCED7; text-align: center; height: 50px; width: 130px;">
@@ -283,7 +284,6 @@
                    </div>
                 </div>
                 <div class="card-content">
-                    @if(!empty($transformers))
                     <table class="table">
                         <tbody>
                             @foreach($transformers as $transformer)
@@ -294,8 +294,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    @endif
                 </div>
+                @endif
             </div>
         
             <div class="card" style="margin-top: 20px;">
@@ -322,7 +322,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card" style="margin-top: 42.5px;">
+            <div class="card" style="bottom: 356.5px; position: fixed; right: 40px; left: 40px;">
                 <div class="card-header" style="position: relative;">
                    <img src="{{ public_path('images/icon.svg') }}" alt=""> <h4>VALOR DA PROPOSTA</h4>
                 </div>
