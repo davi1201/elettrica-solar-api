@@ -20,7 +20,9 @@ Route::prefix('v1')->group(function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::prefix('v1')->group(function () {        
+    Route::prefix('v1')->group(function () {       
+        
+        Route::get('cep', 'AddressController@getAddressExternal');
         
         Route::apiResource('users', 'UserController');
         Route::apiResource('products', 'ProductController');
