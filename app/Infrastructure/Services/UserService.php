@@ -10,6 +10,7 @@ class UserService
     {
         $user->name = $data['name'];
         $user->email = $data['email'];
+        $user->type = $data['type'];
         $user->password = bcrypt($data['password']);
         $user->save();
 

@@ -10,7 +10,7 @@ class AgentRepository
 {
     public function getAll()
     {
-        $agents = Agent::with('address.city.province')->with('bankAccount')->get();
+        $agents = Agent::with('address.city.province')->with('bankAccount')->orderBy('name')->get();
         return $agents;
     }
 }

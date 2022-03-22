@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Agent;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,13 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+
+        if ($user->type === 'public') {
+            $agent = Agent::find($request->get('agent_id'));
+            $agent->user_id = $user->id;
+            $agent->update();
+        }
+
         return $user;
     }
 
@@ -35,18 +43,13 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $credentials['email'])->first();
-        $permission = 'admin';
-
-        if(isset($user->agent)) {
-            $permission = 'public';
-        }
 
         if ($token = $this->guard()->attempt($credentials)) {
             return response()->json([
                 'status' => 'success', 
                 'token' => $token, 
                 'user' => $user,
-                'permission' => $permission
+                'permission' => $user->type
             ], 200)->header('Authorization', $token);
         }
 

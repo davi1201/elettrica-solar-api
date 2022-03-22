@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AgentRequest extends FormRequest
 {
@@ -24,8 +25,13 @@ class AgentRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|unique:users',
-            'name' => 'required|unique:users',
+            'email' => [
+                'required', 'string', 'email',
+                Rule::unique('agents')->ignore($this->agent),
+            ],
+            'name' => ['required', 'string',
+                Rule::unique('agents', 'name')->ignore($this->agent),
+            ],  
         ];
     }
 

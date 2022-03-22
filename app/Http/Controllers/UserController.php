@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user);
+        return response()->json($user->load('agent'));
     }
 
     /**
@@ -69,7 +69,7 @@ class UserController extends Controller
         $data = $request->all();
         $user = $this->user_service->update($user, $data);
 
-        return response()->json($user, 200);
+        return response()->json($user, 201);
     }
 
     /**

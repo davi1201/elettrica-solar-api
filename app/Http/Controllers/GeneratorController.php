@@ -99,7 +99,7 @@ class GeneratorController extends Controller
         $configAdmin = ConfigAdmin::find(1);
         #$requestData = json_decode($request->message, true);
         $requestData = $request->all();
-        $xmlCombinations = DB::table('products_combinations')->whereIn('panel', ['JINKO', 'PHONO'] )->whereIn('power_inverter', ['GROWATT'])->get();
+        $xmlCombinations = DB::table('products_combinations')->whereIn('panel', ['JINKO', 'PHONO', 'BYD'] )->whereIn('power_inverter', ['GROWATT', 'REFUSOL', 'FRONIUS'])->get();
         $roof = MiscellaneousOption::find($requestData['roof_type_id']);
         $irradiation = $solarPotentialRepository->getByCity(City::find($requestData['city_id']));
         // var_dump($xmlCombinations);
@@ -158,8 +158,8 @@ class GeneratorController extends Controller
             $response['transformers'] = $generatorInfo['transformers'];
 
             if ($data['inverter_brand'] === 'growatt'
-                // || $data['inverter_brand'] === 'fronius'
-                // || $data['inverter_brand'] === 'refusol'
+                || $data['inverter_brand'] === 'fronius'
+                || $data['inverter_brand'] === 'refusol'
             ) {
                 $json[$data['panel_type']][$data['inverter_brand']] = $response;
             }
