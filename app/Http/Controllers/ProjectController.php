@@ -58,7 +58,7 @@ class ProjectController extends Controller
     {
         $data = $request->all();
 
-        if ($data['agent_percentage'] < 10) {
+        if ($data['agent_percentage'] < 5) {
             $data['project_discount'] = [
                 'price' => $data['price'],
                 'price_with_discount' => $data['price_with_discount'],

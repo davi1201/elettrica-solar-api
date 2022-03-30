@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::where('email', $credentials['email'])->with('agent')->first();
 
         if ($token = $this->guard()->attempt($credentials)) {
             return response()->json([
