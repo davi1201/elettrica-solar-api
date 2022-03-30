@@ -34,7 +34,7 @@ class ProjectService
                 $project_transformer->save();
             }
 
-            if ($data['agent_percentage'] < 8) {
+            if ($data['agent_percentage'] < 5) {
                 $data['project_discount']['project_id'] = $project->id;
                 $project_discount = new ProjectDiscount($data['project_discount']);
                 $project_discount->save();
