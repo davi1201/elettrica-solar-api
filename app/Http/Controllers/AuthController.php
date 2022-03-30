@@ -27,11 +27,12 @@ class AuthController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->type = $request->type;
         $user->password = bcrypt($request->password);
         $user->save();
 
         if ($user->type === 'public') {
-            $agent = Agent::find($request->get('agent_id'));
+            $agent = Agent::find($request->agent_id);
             $agent->user_id = $user->id;
             $agent->update();
         }
