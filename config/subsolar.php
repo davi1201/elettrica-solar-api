@@ -65,7 +65,7 @@ return [
         [
             'id' => 'jinko',
             'name' => 'JINKO',
-            'power' => 0.450,
+            'power' => 0.550,
             'type' => 'MONO',
             'category' => 'panel',
             'utilArea' => 1.7974,
