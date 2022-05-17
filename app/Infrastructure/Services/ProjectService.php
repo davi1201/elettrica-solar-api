@@ -77,11 +77,11 @@ class ProjectService
 
     public function findById($sku)
     {        
-        $url = env('SOLFACIL_URL') .'?page=1&page_size=1&skus[0]=' . $sku;
+        $url = env('SOLFACIL_URL_PROD') .'?page=1&page_size=1&skus[0]=' . $sku;
         // dd($url);
         $response = Http::withHeaders([
-                            'api-access-key' => env('SOLFACIL_KEY'),
-                            'api-secret-key' => env('SOLFACIL_PASSWORD')
+                            'api-access-key' => env('SOLFACIL_KEY_PROD'),
+                            'api-secret-key' => env('SOLFACIL_PASSWORD_PROD')
                         ])
                         ->acceptJson()
                         ->get($url);

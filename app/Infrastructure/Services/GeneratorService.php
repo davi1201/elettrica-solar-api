@@ -108,7 +108,7 @@ class GeneratorService
         if ($power > 20000) $range_min = 10000;
 
 
-        $url = env('SOLFACIL_URL') . 
+        $url = env('SOLFACIL_URL_PROD') . 
                     '?min_power=' . ($power - $range_min) . 
                     '&max_power=' . $power . 
                     '&page=1&page_size=10&roof_types[0]=' . 
@@ -116,8 +116,8 @@ class GeneratorService
                     '&order_by_field=price&order_by_direction=asc';
         // dd($url);
         $response = Http::withHeaders([
-                            'api-access-key' => env('SOLFACIL_KEY'),
-                            'api-secret-key' => env('SOLFACIL_PASSWORD')
+                            'api-access-key' => env('SOLFACIL_KEY_PROD'),
+                            'api-secret-key' => env('SOLFACIL_PASSWOR_PRODD')
                         ])
                         ->acceptJson()
                         ->get($url);
