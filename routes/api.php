@@ -7,7 +7,7 @@ Route::prefix('v1')->group(function () {
     Route::get('refresh', 'AuthController@refresh');
     Route::post('login', 'AuthController@login');
     // Route::apiResource('kits', 'GeneratorController');
-    Route::post('get-kits', 'GeneratorController@getKits');
+    Route::post('get-kits', 'GeneratorController@getKitsSolFacil');
     Route::apiResource('projects', 'ProjectController');
 
     Route::get('files/{path_file}/{file}', function($path_file = null, $file = null) {

@@ -7,7 +7,9 @@ use App\Domain\Generator\GeneratorArrangement;
 use App\Domain\Solar\Panel;
 use App\Entities\MiscellaneousOption;
 use App\Entities\Project;
+use App\Entities\SolarPotential;
 use App\Infrastructure\Repository\ProductRepository;
+use Illuminate\Support\Facades\Http;
 
 class GeneratorService
 {
@@ -95,5 +97,33 @@ class GeneratorService
         $md5 = md5($uuid);
 
         return strtoupper(substr($md5, 0, 8));
+    }
+
+    public function getKitsSolFacil($power, $roof_type)
+    {
+        $telhado = MiscellaneousOption::find($roof_type);
+        $range_min = 1000;
+        if ($power >= 10000 && $power <= 20000) $range_min = 5000;
+
+        if ($power > 20000) $range_min = 10000;
+
+
+        $url = env('SOLFACIL_URL') . 
+                    '?min_power=' . ($power - $range_min) . 
+                    '&max_power=' . $power . 
+                    '&page=1&page_size=10&roof_types[0]=' . 
+                    $telhado->solfacil_ref .
+                    '&order_by_field=price&order_by_direction=asc';
+        // dd($url);
+        $response = Http::withHeaders([
+                            'api-access-key' => env('SOLFACIL_KEY'),
+                            'api-secret-key' => env('SOLFACIL_PASSWORD')
+                        ])
+                        ->acceptJson()
+                        ->get($url);
+
+        $kits = $response->json();
+
+        return $kits['data'];
     }
 }

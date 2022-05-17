@@ -12,6 +12,7 @@ use App\Infrastructure\Repository\SolarPotentialRepository;
 use App\Infrastructure\Services\GeneratorService;
 use App\Infrastructure\Services\Project\GeneratorTransformer;
 use App\Model\ConfigAdmin;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -90,6 +91,49 @@ class GeneratorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getKitsSolFacil(Request $request)
+    {
+        $solarPotentialRepository = new SolarPotentialRepository();
+        $requestData = $request->all();
+        $irradiation = $solarPotentialRepository->getByCity(City::find($requestData['city_id']));
+        $powerW = ($requestData['power'] / (($irradiation->average * 30) * 0.8)) * 1000;
+        
+        $data = $this->generator_service->getKitsSolFacil((int)$powerW, $requestData['roof_type_id']);
+
+        foreach ($data as $key => $value) {            
+            $components = explode(PHP_EOL, $data[$key]['description']);
+            $data[$key]['components'] = $components;
+            $data[$key]['price_cost'] = round($data[$key]['price'] / 100, 2);
+            $data[$key]['price'] = $data[$key]['price'] / 100;
+            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * 0.50), 2);
+        }
+        
+        foreach ($data as $key => $value) {
+            foreach ($data[$key]['components'] as $chave => $component) {
+                preg_match('/(\s*[0-9]+)+/', $component, $matches);
+                if (count($matches) > 0) {
+                    $data[$key]['components'][$chave] = [
+                        'quantity' => $matches[0],
+                        'description' => str_replace($matches[0], '', $component)
+                    ];
+                }
+            }
+        }   
+        
+        
+        $res = [
+            'kits' => $data,
+            'power_kwp' => $powerW / 1000,
+            'irradiation' => $irradiation->average,
+            'range_kwp' => [
+                'min' => ($powerW - 1000) / 1000,
+                'max' => $powerW / 1000
+            ]
+        ];
+        
+        return new JsonResponse($res);
     }
 
     public function getKits(Request $request)

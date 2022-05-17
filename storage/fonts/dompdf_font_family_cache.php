@@ -81,6 +81,6 @@
     'normal' => $fontDir . '/sinkin-bold-normal_3b05703ab3b889afc939620926812550',
   ),
   'roboto' => array(
-    'normal' => $fontDir . '/roboto-normal_ad149bced3f7c2e0ff246c3940f6b965',
+    'normal' => $fontDir . '/roboto-normal_9fa47a070a8b30b595086d70bb7ac78c',
   ),
 ) ?>
