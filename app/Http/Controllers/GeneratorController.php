@@ -102,12 +102,14 @@ class GeneratorController extends Controller
         
         $data = $this->generator_service->getKitsSolFacil((int)$powerW, $requestData['roof_type_id']);
 
+        $admin = ConfigAdmin::find(1);
+
         foreach ($data as $key => $value) {            
             $components = explode(PHP_EOL, $data[$key]['description']);
             $data[$key]['components'] = $components;
             $data[$key]['price_cost'] = round($data[$key]['price'] / 100, 2);
             $data[$key]['price'] = $data[$key]['price'] / 100;
-            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * 0.50), 2);
+            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * $admin->percentage_financing), 2);
         }
         
         foreach ($data as $key => $value) {
