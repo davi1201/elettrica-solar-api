@@ -109,7 +109,7 @@ class GeneratorController extends Controller
             $data[$key]['components'] = $components;
             $data[$key]['price_cost'] = round($data[$key]['price'] / 100, 2);
             $data[$key]['price'] = $data[$key]['price'] / 100;
-            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * $admin->percentage_financing), 2);
+            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * $admin->percentage_sale), 2);
         }
         
         foreach ($data as $key => $value) {
