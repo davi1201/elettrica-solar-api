@@ -14,32 +14,32 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         
-        // $v = Validator::make($request->all(), [
-        //     'name' => 'required|unique:users',
-        //     'email' => 'required|email|unique:users',
-        //     'password'  => 'required|min:3',
-        // ]);
-        // if ($v->fails())
-        // {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'errors' => $v->errors()
-        //     ], 422);
-        // }
+        $v = Validator::make($request->all(), [
+            'name' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password'  => 'required|min:3',
+        ]);
+        if ($v->fails())
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
         $user = new User;
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->type = $request->type;
-        // $user->password = bcrypt($request->password);
-        // $user->save();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->type = $request->type;
+        $user->password = bcrypt($request->password);
+        $user->save();
 
         
 
         if ($request->type === 'public') {
-            return new JsonResponse($request->agent_id);
-            // $agent = Agent::find($request->agent_id);
-            // $agent->user_id = $user->id;
-            // $agent->update();
+            // return new JsonResponse($request->agent_id);
+            $agent = Agent::find($request->agent_id);
+            $agent->user_id = $user->id;
+            $agent->update();
         }
 
         return $user;
