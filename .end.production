@@ -47,7 +47,7 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 
 JWT_SECRET=Lgj2bM7IACrdJVSRLoyhBKfd4JJCzN28UHjINPg2EbrKf819EXSsvDBzIRtUcLht
 
-SOLFACIL_URL_PROD=https://marketplace-api.solfacil.com.br//third-party/products
+SOLFACIL_URL_PROD=https://marketplace-api.solfacil.com.br/third-party/products
 SOLFACIL_KEY_PROD=FRRWSBDOTL
 SOLFACIL_PASSWORD_PROD=j0E70p22xSpsyyyURj2tDjpY
 JWT_SECRET=Lgj2bM7IACrdJVSRLoyhBKfd4JJCzN28UHjINPg2EbrKf819EXSsvDBzIRtUcLht
