@@ -305,7 +305,7 @@
                 </div>
                 <div class="card-content" style="background-color: #fff; padding: 10px 40px; color: #333;">
                     <h2 style="color: #333 !important; margin-top: 0px;">R$ @convert($project->price)</h2>
-                    <div style="margin-top: 10px;">
+                    <!--<div style="margin-top: 10px;">
                         <span>SIMULAÇÃO S/ ENTRADA:</span>
                         <div>
                             <strong>36</strong> x <strong style="padding-right: 15px ;">@convert((($project->price * $admin->percentage_financing) + $project->price) / 36)</strong>|
@@ -313,7 +313,7 @@
                             <strong style="padding-left: 15px;">60</strong> x <strong style="padding-right: 15px;">@convert((($project->price * $admin->percentage_financing) + $project->price) / 60)</strong>|
                             <strong style="padding-left: 15px;">72</strong> x <strong>@convert((($project->price * $admin->percentage_financing) + $project->price) / 72)</strong>
                         </div>
-                    </div>
+                    </div>-->
                     <div style="padding-bottom: 15px; margin-top: 20px;">
                         <img src="{{ public_path('images/proposta.jpg') }}" style="width: 200px; margin-top: 10px; padding-right: 20px;" alt=""> <span style="color: #FF7900;">ATÉ 90 DIAS DE CARÊNCIA</span>
                     </div>
