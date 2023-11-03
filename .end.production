@@ -51,3 +51,5 @@ SOLFACIL_URL_PROD=https://marketplace-api.solfacil.com.br/third-party/products
 SOLFACIL_KEY_PROD=FRRWSBDOTL
 SOLFACIL_PASSWORD_PROD=j0E70p22xSpsyyyURj2tDjpY
 JWT_SECRET=Lgj2bM7IACrdJVSRLoyhBKfd4JJCzN28UHjINPg2EbrKf819EXSsvDBzIRtUcLht
+
+FOTUS_API=https://app.fotus.com.br/API/hubB2B/Produtos?token=zeU10PTY

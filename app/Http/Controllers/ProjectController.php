@@ -73,162 +73,125 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $project_product = ProjectProduct::where('project_id', $project->id)->first();
-        $data =  $this->project_service->findById($project_product->product_code);
         $project->load('client.addresses.city.province');
-
-        foreach ($data as $key => $value) {
-            foreach ($data[$key]['components'] as $chave => $component) {
-                preg_match('/(\s*[0-9]+)+/', $component, $matches);
-                if (count($matches) > 0) {
-                    $data[$key]['components'][$chave] = [
-                        'quantity' => $matches[0],
-                        'description' => str_replace($matches[0], '', $component)
-                    ];
+        
+        if ($project->supllier === 'solfacil') {
+            $data =  $this->project_service->findById($project_product->product_code);
+    
+            foreach ($data as $key => $value) {
+                foreach ($data[$key]['components'] as $chave => $component) {
+                    preg_match('/(\s*[0-9]+)+/', $component, $matches);
+                    if (count($matches) > 0) {
+                        $data[$key]['components'][$chave] = [
+                            'quantity' => $matches[0],
+                            'description' => str_replace($matches[0], '', $component)
+                        ];
+                    }
                 }
             }
+    
+            $modules = $data[0]['kit_modules'][0]['amount'] . ' Painéis ' . 
+                        $data[0]['kit_modules'][0]['item']['attributes'][0]['value'] . ' ' . 
+                        $data[0]['kit_modules'][0]['item']['attributes'][1]['value'];
+    
+            $inverter = ' | Inversor ' . $data[0]['kit_inverters'][0]['item']['power'] / 1000 . 'Kwp ' .
+                                    $data[0]['kit_inverters'][0]['item']['attributes'][0]['value'] . ' ' .
+                                    $data[0]['kit_inverters'][0]['item']['attributes'][5]['value'];
+            $description = $modules . $inverter;
+
+            $loads = [
+                'project' => $project,
+                'product' => $project_product,
+                'kit' => $data[0],
+                'agent' => $project->agent,
+                'components' => $data[0]['components'],
+                'admin' => ConfigAdmin::find(1),
+                'description' => $description
+            ];
+            return response()->json($loads, 200);
         }
 
-        $modules = $data[0]['kit_modules'][0]['amount'] . ' Painéis ' . 
-                    $data[0]['kit_modules'][0]['item']['attributes'][0]['value'] . ' ' . 
-                    $data[0]['kit_modules'][0]['item']['attributes'][1]['value'];
-
-        $inverter = ' | Inversor ' . $data[0]['kit_inverters'][0]['item']['power'] / 1000 . 'Kwp ' .
-                                $data[0]['kit_inverters'][0]['item']['attributes'][0]['value'] . ' ' .
-                                $data[0]['kit_inverters'][0]['item']['attributes'][5]['value'];
-        $description = $modules . $inverter;
-        
         $loads = [
             'project' => $project,
             'product' => $project_product,
-            'kit' => $data[0],
+            // 'kit' => $project->projectProduct->product,
             'agent' => $project->agent,
-            'components' => $data[0]['components'],
+            'components' => json_decode($project_product->components),
             'admin' => ConfigAdmin::find(1),
-            'description' => $description
         ];
+
         return response()->json($loads, 200);
+
     }
-
-    protected function generatePaybackChart(array $data)
-    {
-        $paybackYears[] = [
-            "Anos",
-            "R$",
-            ['type' => 'string', 'role' => 'tooltip', 'p' => ['html' => true]],
-            ['type' => 'string', 'role' => 'style'],
-        ];
-
-        for ($i = 0; $i < sizeof($data); $i++) {
-            $xAxisLabel = $i == 0 ? 'Hoje' : "{$i}";
-
-            $formattedValue = $this->getNumberFormatted($data[$i], ',', '.');
-            $string = "<div class='chart-tooltip' style='width: 120px'>Ano {$xAxisLabel}<br><strong>R$ {$formattedValue}</strong></div>";
-            $value = (float)$this->getNumberFormatted($data[$i], ',', '');
-
-            $paybackYears[] = [
-                $xAxisLabel,
-                $value,
-                $string,
-                $data[$i] > 0 ? 'color: #48C596' : 'color: #FBE45A',
-            ];
-        }
-
-        $minChartColumn = min($data);
-
-        return [
-            $paybackYears,
-            $minChartColumn,
-        ];
-    }
-
-    protected function generatePayBack($estimatedValue, $estimatedPower, $consumptionOffPeak, $kwOffPeakPrice, $demand = null, $kwOnDemandPrice = null)
-    {
-        $estimatedValue = $estimatedValue * -1;
-
-        $monthlyConsume = $consumptionOffPeak;
-        $annualGeneration = $estimatedPower * 12;
-        if ($demand) {
-            $yearConsume = $monthlyConsume * 12;
-        } else {
-            $yearConsume = ($monthlyConsume - 100) * 12;
-        }
-
-        $valueSavedYears = [
-            $estimatedValue
-        ];
-
-        $degradatePanel = 1;
-
-        for ($i = 0; $i < 25; $i++) {
-            if ($i > 0) {
-                $degradatePanel = $degradatePanel * 0.994;
-                $kwOffPeakPrice = $kwOffPeakPrice * 1.07;
-                $kwOnDemandPrice = $kwOnDemandPrice * 1.07;
-            }
-            $minor = ($annualGeneration * $degradatePanel) < $yearConsume ? ($annualGeneration * $degradatePanel) : $yearConsume;
-
-            $cost = $minor * $kwOffPeakPrice;
-
-            $estimatedValue = $estimatedValue + ($cost - ($demand * 12 * $kwOnDemandPrice));
-
-            $valueSavedYears[] = $estimatedValue;
-        }
-
-        return $valueSavedYears;
-    }
+   
 
     public function showPdfSolfacil(Project $project)
     {
         $pdf = App::make('dompdf.wrapper');
         $project_product = ProjectProduct::where('project_id', $project->id)->first();
-        $data =  $this->project_service->findById($project_product->product_code);
-
         $solarPotentialRepository = new SolarPotentialRepository();
         $irradiation = $solarPotentialRepository->getByCity(City::find($project->city_id));
 
-        foreach ($data as $key => $value) {            
-            $components = explode(PHP_EOL, $data[$key]['description']);
-            $data[$key]['components'] = $components;
-            $data[$key]['price_cost'] = round($data[$key]['price'] / 100, 2);
-            $data[$key]['price'] = $data[$key]['price'] / 100;
-            $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * 0.50), 2);
-        }
-        
-        foreach ($data as $key => $value) {
-            foreach ($data[$key]['components'] as $chave => $component) {
-                preg_match('/(\s*[0-9]+)+/', $component, $matches);
-                if (count($matches) > 0) {
-                    $data[$key]['components'][$chave] = [
-                        'quantity' => $matches[0],
-                        'description' => str_replace($matches[0], '', $component)
-                    ];
+        if ($project->supplier === 'solfacil') {
+            $data =  $this->project_service->findById($project_product->product_code);
+    
+    
+            foreach ($data as $key => $value) {            
+                $components = explode(PHP_EOL, $data[$key]['description']);
+                $data[$key]['components'] = $components;
+                $data[$key]['price_cost'] = round($data[$key]['price'] / 100, 2);
+                $data[$key]['price'] = $data[$key]['price'] / 100;
+                $data[$key]['price'] = round($data[$key]['price'] + ($data[$key]['price'] * 0.50), 2);
+            }
+            
+            foreach ($data as $key => $value) {
+                foreach ($data[$key]['components'] as $chave => $component) {
+                    preg_match('/(\s*[0-9]+)+/', $component, $matches);
+                    if (count($matches) > 0) {
+                        $data[$key]['components'][$chave] = [
+                            'quantity' => $matches[0],
+                            'description' => str_replace($matches[0], '', $component)
+                        ];
+                    }
                 }
             }
+    
+            $modules = $data[0]['kit_modules'][0]['amount'] . ' Painéis ' . 
+                        $data[0]['kit_modules'][0]['item']['attributes'][0]['value'] . ' ' . 
+                        $data[0]['kit_modules'][0]['item']['attributes'][1]['value'];
+    
+            $inverter = ' | Inversor ' . $data[0]['kit_inverters'][0]['item']['power'] / 1000 . 'Kwp ' .
+                                    $data[0]['kit_inverters'][0]['item']['attributes'][0]['value'] . ' ' .
+                                    $data[0]['kit_inverters'][0]['item']['attributes'][5]['value'];
+            $description = $modules . $inverter;
+            
+            $loads = [
+                'project' => $project,
+                'product' => $project_product,
+                'kit' => $data[0],
+                'average' => $irradiation->average,
+                'agent' => $project->agent,
+                'components' => $data[0]['components'],
+                'admin' => ConfigAdmin::find(1),
+                'description' => $description
+            ];
         }
 
-        $modules = $data[0]['kit_modules'][0]['amount'] . ' Painéis ' . 
-                    $data[0]['kit_modules'][0]['item']['attributes'][0]['value'] . ' ' . 
-                    $data[0]['kit_modules'][0]['item']['attributes'][1]['value'];
 
-        $inverter = ' | Inversor ' . $data[0]['kit_inverters'][0]['item']['power'] / 1000 . 'Kwp ' .
-                                $data[0]['kit_inverters'][0]['item']['attributes'][0]['value'] . ' ' .
-                                $data[0]['kit_inverters'][0]['item']['attributes'][5]['value'];
-        $description = $modules . $inverter;
-        
         $loads = [
             'project' => $project,
             'product' => $project_product,
-            'kit' => $data[0],
+            // 'kit' => $project->projectProduct->product,
             'average' => $irradiation->average,
             'agent' => $project->agent,
-            'components' => $data[0]['components'],
+            'components' => json_decode($project_product->components),
             'admin' => ConfigAdmin::find(1),
-            'description' => $description
+            'description' => $project_product->description
         ];
-
         
-        // dd($description);
-        // dd($loads['kit']['kit_inverters'][0]['item']);
+
+        // dd($loads);
+        
         $html = view('project-solfacil', $loads)->render();       
 
         $pdf->loadHTML($html);

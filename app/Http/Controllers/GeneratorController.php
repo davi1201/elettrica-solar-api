@@ -98,7 +98,8 @@ class GeneratorController extends Controller
         $solarPotentialRepository = new SolarPotentialRepository();
         $requestData = $request->all();
         $irradiation = $solarPotentialRepository->getByCity(City::find($requestData['city_id']));
-        $powerW = ($requestData['power'] / (($irradiation->average * 30) * 0.8)) * 1000;
+        $powerW = ($requestData['power'] / (($irradiation->average * 30) * 0.87)) * 1000;
+        $dataFotus = $this->generator_service->getKitFotus($powerW, $requestData['roof_type_id']);
         
         $data = $this->generator_service->getKitsSolFacil((int)$powerW, $requestData['roof_type_id']);
 
@@ -122,11 +123,27 @@ class GeneratorController extends Controller
                     ];
                 }
             }
-        }   
-        
+        }
+
+        $kitsFotus = [];
+
+        foreach($dataFotus as $key => $value) {
+            $kitsFotus[$key] = $dataFotus[$key];
+            $kitsFotus[$key]['price_cost'] = round($dataFotus[$key]['precoVenda'] / 1, 2);
+            $kitsFotus[$key]['price'] = $dataFotus[$key]['precoVenda'] / 1;
+            $kitsFotus[$key]['price'] = round($kitsFotus[$key]['price'] + ($kitsFotus[$key]['price'] * $admin->percentage_sale), 2);
+
+            foreach($dataFotus[$key]['composicao'] as $chave => $component) {
+                $kitsFotus[$key]['components'][$chave] = [
+                    'quantity' => $component['qtd'],
+                    'description' => $component['descricao']
+                ];
+            }   
+        }
         
         $res = [
             'kits' => $data,
+            'kits_fotus' => (array) $kitsFotus,
             'power_kwp' => $powerW / 1000,
             'irradiation' => $irradiation->average,
             'range_kwp' => [
@@ -134,6 +151,8 @@ class GeneratorController extends Controller
                 'max' => $powerW / 1000
             ]
         ];
+
+        // dd($res);
         
         return new JsonResponse($res);
     }

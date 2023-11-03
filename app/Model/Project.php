@@ -10,6 +10,7 @@ class Project extends Model
 {
     protected $fillable = [
         'agent_id',
+        'supplier',
         'client_id',
         'province_id',
         'city_id',

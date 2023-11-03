@@ -40,8 +40,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)    {
-        
+    public function store(Request $request) {        
         $user = $this->auth_controller->register($request);
         return response()->json($user, 200);
     }

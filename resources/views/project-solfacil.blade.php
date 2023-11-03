@@ -285,18 +285,35 @@
                 <div class="card-content">
                     <table class="table">
                         <tbody>
-                            @foreach($components as $component)
-                            @if(isset($component['description']))
-                                <tr>
-                                    <td style="text-transform: uppercase">
-                                        {{ $component['description'] }}
-                                    </td>
-                                    <td class="text-center" style="width: 109.5px;">
-                                        {{ $component['quantity'] }}
-                                    </td>
-                                </tr>
+                            @if($project->supplier === 'solfacil')
+                                @foreach($components as $component)
+                                    @if(isset($component['description']))
+                                        <tr>
+                                            <td style="text-transform: uppercase">
+                                                {{ $component['description'] }}
+                                            </td>
+                                            <td class="text-center" style="width: 109.5px;">
+                                                {{ $component['quantity'] }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                             @endif
-                            @endforeach
+
+                            @if($project->supplier === 'fotus')
+                                @foreach($components as $key => $component)
+                                    @if(isset($component->description))
+                                        <tr>
+                                            <td style="text-transform: uppercase">
+                                                {{ $component->description }}
+                                            </td>
+                                            <td class="text-center" style="width: 109.5px;">
+                                                {{ $component->quantity }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
