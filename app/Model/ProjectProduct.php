@@ -16,7 +16,9 @@ class ProjectProduct extends Model
         'power',
         'panel_count',
         'estimate_power',
-        'quantity'
+        'quantity',
+        'components',
+        'description'
     ];
 
     public function product()

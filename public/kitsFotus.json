@@ -1,0 +1,196 @@
+[
+    {
+      "idProduto": 92341,
+      "codErp": null,
+      "descricao": "(A27) Fotus Flash - Sunova 560W - Growatt - 2,8 kWp - Cerâmico | C/ String box",
+      "precoVenda": 5119,
+      "marca": "0",
+      "modelo": "FOTUS FLASH",
+      "agrupamento": "Kit Gerador Fotovoltaico",
+      "potencia": 2800,
+      "area": 0,
+      "largura": null,
+      "altura": null,
+      "comprimento": null,
+      "dataSheet": null,
+      "especificacoes": "5 1. SUNOVA | TIER 1 | 560W MONO (21,70% EF.) \n1 INVERSOR GROWATT MIC 3000TL-X 220V (1 MPPT)\n4 CONECTOR | FEMEA/MACHO | FOTUS | TIPO MC4\n1 CABO SOLAR | ROLO 25 METROS | 4MM | PRETO\n1 CABO SOLAR | ROLO 25 METROS | 4MM | VERMELHO \n2 KIT TELHADO CERÂMICO | PERFIL | 4 MÓDULOS (T2 4.8M - 30~35MM)\n6 PERFIL ALUMÍNIO | CERÂMICO/FIBROCIMENTO | PERFIL ALFA UP | 2.40M \n1 STRING BOX CLAMPER 1E/1S DC 1040V",
+      "composicao": [
+        {
+          "idProduto": 70257,
+          "descricao": "1. SUNOVA | TIER 1 | 560W MONO (21,70% EF.) ",
+          "qtd": 5,
+          "agrupamento": "Painel",
+          "marca": "SUNOVA SOLAR",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 160,
+          "descricao": "INVERSOR GROWATT MIC 3000TL-X 220V (1 MPPT)",
+          "qtd": 1,
+          "agrupamento": "Inversor",
+          "marca": "5. GROWATT",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 1163,
+          "descricao": "CONECTOR | FEMEA/MACHO | FOTUS | TIPO MC4",
+          "qtd": 4,
+          "agrupamento": "Outros",
+          "marca": "PROAUTO",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 22995,
+          "descricao": "CABO SOLAR | ROLO 25 METROS | 4MM | PRETO",
+          "qtd": 1,
+          "agrupamento": "Cabo",
+          "marca": "FOTUS",
+          "unidade": "un",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 22994,
+          "descricao": "CABO SOLAR | ROLO 25 METROS | 4MM | VERMELHO ",
+          "qtd": 1,
+          "agrupamento": "Cabo",
+          "marca": "FOTUS",
+          "unidade": "un",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 75,
+          "descricao": "KIT TELHADO CERÂMICO | PERFIL | 4 MÓDULOS (T2 4.8M - 30~35MM)",
+          "qtd": 2,
+          "agrupamento": "Estrutura",
+          "marca": "FOTUS",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 72,
+          "descricao": "PERFIL ALUMÍNIO | CERÂMICO/FIBROCIMENTO | PERFIL ALFA UP | 2.40M ",
+          "qtd": 6,
+          "agrupamento": "Estrutura",
+          "marca": "PERFIL ALUMINIO DO BRASIL S/A",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 3395,
+          "descricao": "STRING BOX CLAMPER 1E/1S DC 1040V",
+          "qtd": 1,
+          "agrupamento": "Stringbox",
+          "marca": "CLAMPER",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        }
+      ],
+      "estoque": 0,
+      "dataAlteracao": "2023-09-27T13:26:19",
+      "estrutura": "Cerâmico",
+      "marcaPainel": "SUNOVA SOLAR",
+      "marcaInversor": "5. GROWATT",
+      "unidade": "KT",
+      "dtDisponibilidade": null
+    },
+    {
+      "idProduto": 92342,
+      "codErp": null,
+      "descricao": "(A27) Fotus Flash - Sunova 560W - Growatt - 2,8 kWp - Cerâmico | C/ String box",
+      "precoVenda": 5119,
+      "marca": "0",
+      "modelo": "FOTUS FLASH",
+      "agrupamento": "Kit Gerador Fotovoltaico",
+      "potencia": 4800,
+      "area": 0,
+      "largura": null,
+      "altura": null,
+      "comprimento": null,
+      "dataSheet": null,
+      "especificacoes": "5 1. SUNOVA | TIER 1 | 560W MONO (21,70% EF.) \n1 INVERSOR GROWATT MIC 3000TL-X 220V (1 MPPT)\n4 CONECTOR | FEMEA/MACHO | FOTUS | TIPO MC4\n1 CABO SOLAR | ROLO 25 METROS | 4MM | PRETO\n1 CABO SOLAR | ROLO 25 METROS | 4MM | VERMELHO \n2 KIT TELHADO CERÂMICO | PERFIL | 4 MÓDULOS (T2 4.8M - 30~35MM)\n6 PERFIL ALUMÍNIO | CERÂMICO/FIBROCIMENTO | PERFIL ALFA UP | 2.40M \n1 STRING BOX CLAMPER 1E/1S DC 1040V",
+      "composicao": [
+        {
+          "idProduto": 70257,
+          "descricao": "1. SUNOVA | TIER 1 | 560W MONO (21,70% EF.) ",
+          "qtd": 5,
+          "agrupamento": "Painel",
+          "marca": "SUNOVA SOLAR",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 160,
+          "descricao": "INVERSOR GROWATT MIC 3000TL-X 220V (1 MPPT)",
+          "qtd": 1,
+          "agrupamento": "Inversor",
+          "marca": "5. GROWATT",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 1163,
+          "descricao": "CONECTOR | FEMEA/MACHO | FOTUS | TIPO MC4",
+          "qtd": 4,
+          "agrupamento": "Outros",
+          "marca": "PROAUTO",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 22995,
+          "descricao": "CABO SOLAR | ROLO 25 METROS | 4MM | PRETO",
+          "qtd": 1,
+          "agrupamento": "Cabo",
+          "marca": "FOTUS",
+          "unidade": "un",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 22994,
+          "descricao": "CABO SOLAR | ROLO 25 METROS | 4MM | VERMELHO ",
+          "qtd": 1,
+          "agrupamento": "Cabo",
+          "marca": "FOTUS",
+          "unidade": "un",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 75,
+          "descricao": "KIT TELHADO CERÂMICO | PERFIL | 4 MÓDULOS (T2 4.8M - 30~35MM)",
+          "qtd": 2,
+          "agrupamento": "Estrutura",
+          "marca": "FOTUS",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 72,
+          "descricao": "PERFIL ALUMÍNIO | CERÂMICO/FIBROCIMENTO | PERFIL ALFA UP | 2.40M ",
+          "qtd": 6,
+          "agrupamento": "Estrutura",
+          "marca": "PERFIL ALUMINIO DO BRASIL S/A",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        },
+        {
+          "idProduto": 3395,
+          "descricao": "STRING BOX CLAMPER 1E/1S DC 1040V",
+          "qtd": 1,
+          "agrupamento": "Stringbox",
+          "marca": "CLAMPER",
+          "unidade": "UN",
+          "dtDisponibilidade": null
+        }
+      ],
+      "estoque": 0,
+      "dataAlteracao": "2023-09-27T13:26:19",
+      "estrutura": "Cerâmico",
+      "marcaPainel": "SUNOVA SOLAR",
+      "marcaInversor": "5. GROWATT",
+      "unidade": "KT",
+      "dtDisponibilidade": null
+    }
+  ]  

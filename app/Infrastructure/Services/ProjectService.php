@@ -51,7 +51,9 @@ class ProjectService
                 'price' => $data['price_cost'],
                 'panel_count' => $data['panel_count'],
                 'power' => $data['kwp'],
-                'estimate_power' => $data['estimate_power']
+                'estimate_power' => $data['estimate_power'],
+                'components' => json_encode($data['components']),
+                'description' => $data['description'],
             ];
             $project_product = new ProjectProduct($project_product_data);
             $project_product->save();            
@@ -77,8 +79,7 @@ class ProjectService
 
     public function findById($sku)
     {        
-        $url = env('SOLFACIL_URL_PROD') .'?page=1&page_size=1&skus[0]=' . $sku;
-        // dd($url);
+        $url = env('SOLFACIL_URL_PROD') .'?page=1&page_size=1&skus[0]=' . $sku;        
         $response = Http::withHeaders([
                             'api-access-key' => env('SOLFACIL_KEY_PROD'),
                             'api-secret-key' => env('SOLFACIL_PASSWORD_PROD')

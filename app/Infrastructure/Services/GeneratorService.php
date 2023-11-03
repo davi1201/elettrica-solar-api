@@ -99,25 +99,31 @@ class GeneratorService
         return strtoupper(substr($md5, 0, 8));
     }
 
-    public function getKitsSolFacil($power, $roof_type)
+    public function getRange($power)
     {
-        $telhado = MiscellaneousOption::find($roof_type);
-        $range_min = 1000;
+        $range_min = 200;
         if ($power >= 10000 && $power <= 20000) $range_min = 5000;
 
         if ($power > 20000) $range_min = 10000;
 
+        return $range_min;
+    }
+
+    public function getKitsSolFacil($power, $roof_type)
+    {
+        $telhado = MiscellaneousOption::find($roof_type);
+        $range_min = $this->getRange($power);
 
         $url = env('SOLFACIL_URL_PROD') . 
                     '?min_power=' . ($power - $range_min) . 
                     '&max_power=' . $power . 
-                    '&page=1&page_size=10&roof_types[0]=' . 
+                    '&page=1&page_size=20&roof_types[0]=' . 
                     $telhado->solfacil_ref .
                     '&order_by_field=price&order_by_direction=asc';
         // dd($url);
         $response = Http::withHeaders([
                             'api-access-key' => env('SOLFACIL_KEY_PROD'),
-                            'api-secret-key' => env('SOLFACIL_PASSWOR_PRODD')
+                            'api-secret-key' => env('SOLFACIL_PASSWORD_PROD')
                         ])
                         ->acceptJson()
                         ->get($url);
@@ -125,5 +131,62 @@ class GeneratorService
         $kits = $response->json();
 
         return $kits['data'];
+    }
+
+    public function getRoofTypeFotus($roof_type_id)
+    {
+        switch ($roof_type_id) {
+
+            case 1:
+                return 'Sem Estrutura';
+                break;
+            case 2:
+                return 'Cerâmico';
+                break;
+
+            case 3:
+                return 'Laje';
+                break;
+
+            case 4:
+                return 'Metálico';
+                break;
+
+            case 7:
+                return 'Fibrocimento';
+                break;
+
+            case 8:
+                return 'Fibrometal';
+                break;
+
+            case 9:
+                return 'Solo';
+                break;
+            
+            default:
+                return '';
+                break;
+        }
+    }
+
+    public function getKitFotus($power, $roof_type)
+    {
+        $url = env('FOTUS_API');
+        $range_min = $this->getRange($power);
+
+        // dd($power - $range_min);
+        $estrutura = $this->getRoofTypeFotus($roof_type);
+
+        $response = Http::acceptJson()
+                        ->get($url);
+
+        $kits = collect($response->json())
+                ->where('agrupamento', 'Kit Gerador Fotovoltaico')
+                ->where('estrutura', $estrutura)
+                ->where('potencia', '>=', $power - $range_min)
+                ->where('potencia', '<=', $power);
+
+        return $kits;
     }
 }
